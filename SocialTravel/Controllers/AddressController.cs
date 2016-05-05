@@ -69,6 +69,7 @@ namespace SocialTravel.Controllers
                     aa.street = address.street;
                     aa.house_no = address.house_no;
                     aa.area = address.area;
+
                 
                     return true;
                 }
