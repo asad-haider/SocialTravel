@@ -1,0 +1,535 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SocialTravelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="App_Address">
+          <Key>
+            <PropertyRef Name="address_id" />
+          </Key>
+          <Property Name="address_id" Type="int" Nullable="false" />
+          <Property Name="house_no" Type="int" Nullable="false" />
+          <Property Name="block" Type="int" Nullable="false" />
+          <Property Name="street" Type="int" Nullable="false" />
+          <Property Name="area" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="town" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="App_Car_Pool">
+          <Key>
+            <PropertyRef Name="car_pool_id" />
+          </Key>
+          <Property Name="car_pool_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="car_pool_created_date" Type="date" Nullable="false" />
+          <Property Name="to_" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="from_" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="effective_from" Type="date" Nullable="false" />
+          <Property Name="effective_to" Type="date" Nullable="false" />
+          <Property Name="no_of_seats_available" Type="int" Nullable="false" />
+          <Property Name="cost_per_seat" Type="int" Nullable="false" />
+          <Property Name="round_trip" Type="bit" Nullable="false" />
+          <Property Name="wait_time" Type="int" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="50" />
+          <Property Name="approx_reach_time" Type="int" Nullable="false" />
+          <Property Name="smoking" Type="bit" Nullable="false" />
+          <Property Name="food" Type="bit" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="App_Driver_Schedule">
+          <Key>
+            <PropertyRef Name="car_pool_id" />
+            <PropertyRef Name="day" />
+          </Key>
+          <Property Name="car_pool_id" Type="int" Nullable="false" />
+          <Property Name="day" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="leaving_time" Type="datetime" Nullable="false" />
+          <Property Name="reaching_time" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="App_Feedback">
+          <Key>
+            <PropertyRef Name="car_pool_id" />
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="car_pool_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="created_date" Type="date" Nullable="false" />
+          <Property Name="feedback_description" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="rating" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="App_Takes">
+          <Key>
+            <PropertyRef Name="user_id" />
+            <PropertyRef Name="car_pool_id" />
+          </Key>
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="car_pool_id" Type="int" Nullable="false" />
+          <Property Name="no_of_seats_booked" Type="int" Nullable="false" />
+          <Property Name="booking_date" Type="date" Nullable="false" />
+          <Property Name="unbook_date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="App_User">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="phone_No" Type="int" Nullable="false" />
+          <Property Name="user_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="user_password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="user_description" Type="varchar" MaxLength="50" />
+          <Property Name="profile_picture" Type="image" />
+          <Property Name="address_id" Type="int" Nullable="false" />
+          <Property Name="gender" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="black_list" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__App_Addre__user___1273C1CD">
+          <End Role="App_User" Type="Self.App_User" Multiplicity="1" />
+          <End Role="App_Address" Type="Self.App_Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="App_Address">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__App_Car_P__user___15502E78">
+          <End Role="App_User" Type="Self.App_User" Multiplicity="1" />
+          <End Role="App_Car_Pool" Type="Self.App_Car_Pool" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="App_Car_Pool">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__App_Drive__car_p__1ED998B2">
+          <End Role="App_Car_Pool" Type="Self.App_Car_Pool" Multiplicity="1" />
+          <End Role="App_Driver_Schedule" Type="Self.App_Driver_Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_Car_Pool">
+              <PropertyRef Name="car_pool_id" />
+            </Principal>
+            <Dependent Role="App_Driver_Schedule">
+              <PropertyRef Name="car_pool_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__App_Feedb__car_p__1BFD2C07">
+          <End Role="App_Car_Pool" Type="Self.App_Car_Pool" Multiplicity="1" />
+          <End Role="App_Feedback" Type="Self.App_Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_Car_Pool">
+              <PropertyRef Name="car_pool_id" />
+            </Principal>
+            <Dependent Role="App_Feedback">
+              <PropertyRef Name="car_pool_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__App_Takes__car_p__1920BF5C">
+          <End Role="App_Car_Pool" Type="Self.App_Car_Pool" Multiplicity="1" />
+          <End Role="App_Takes" Type="Self.App_Takes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_Car_Pool">
+              <PropertyRef Name="car_pool_id" />
+            </Principal>
+            <Dependent Role="App_Takes">
+              <PropertyRef Name="car_pool_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__App_Takes__user___182C9B23">
+          <End Role="App_User" Type="Self.App_User" Multiplicity="1" />
+          <End Role="App_Takes" Type="Self.App_Takes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="App_Takes">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SocialTravelModelStoreContainer">
+          <EntitySet Name="App_Address" EntityType="Self.App_Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="App_Car_Pool" EntityType="Self.App_Car_Pool" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="App_Driver_Schedule" EntityType="Self.App_Driver_Schedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="App_Feedback" EntityType="Self.App_Feedback" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="App_Takes" EntityType="Self.App_Takes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="App_User" EntityType="Self.App_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__App_Addre__user___1273C1CD" Association="Self.FK__App_Addre__user___1273C1CD">
+            <End Role="App_User" EntitySet="App_User" />
+            <End Role="App_Address" EntitySet="App_Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK__App_Car_P__user___15502E78" Association="Self.FK__App_Car_P__user___15502E78">
+            <End Role="App_User" EntitySet="App_User" />
+            <End Role="App_Car_Pool" EntitySet="App_Car_Pool" />
+          </AssociationSet>
+          <AssociationSet Name="FK__App_Drive__car_p__1ED998B2" Association="Self.FK__App_Drive__car_p__1ED998B2">
+            <End Role="App_Car_Pool" EntitySet="App_Car_Pool" />
+            <End Role="App_Driver_Schedule" EntitySet="App_Driver_Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__App_Feedb__car_p__1BFD2C07" Association="Self.FK__App_Feedb__car_p__1BFD2C07">
+            <End Role="App_Car_Pool" EntitySet="App_Car_Pool" />
+            <End Role="App_Feedback" EntitySet="App_Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK__App_Takes__car_p__1920BF5C" Association="Self.FK__App_Takes__car_p__1920BF5C">
+            <End Role="App_Car_Pool" EntitySet="App_Car_Pool" />
+            <End Role="App_Takes" EntitySet="App_Takes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__App_Takes__user___182C9B23" Association="Self.FK__App_Takes__user___182C9B23">
+            <End Role="App_User" EntitySet="App_User" />
+            <End Role="App_Takes" EntitySet="App_Takes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SocialTravelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="App_Address">
+          <Key>
+            <PropertyRef Name="address_id" />
+          </Key>
+          <Property Name="address_id" Type="Int32" Nullable="false" />
+          <Property Name="house_no" Type="Int32" Nullable="false" />
+          <Property Name="block" Type="Int32" Nullable="false" />
+          <Property Name="street" Type="Int32" Nullable="false" />
+          <Property Name="area" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="town" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="App_User" Relationship="Self.FK__App_Addre__user___1273C1CD" FromRole="App_Address" ToRole="App_User" />
+        </EntityType>
+        <EntityType Name="App_Car_Pool">
+          <Key>
+            <PropertyRef Name="car_pool_id" />
+          </Key>
+          <Property Name="car_pool_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="car_pool_created_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="to_" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="from_" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="effective_from" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="effective_to" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="no_of_seats_available" Type="Int32" Nullable="false" />
+          <Property Name="cost_per_seat" Type="Int32" Nullable="false" />
+          <Property Name="round_trip" Type="Boolean" Nullable="false" />
+          <Property Name="wait_time" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="approx_reach_time" Type="Int32" Nullable="false" />
+          <Property Name="smoking" Type="Boolean" Nullable="false" />
+          <Property Name="food" Type="Boolean" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="App_User" Relationship="Self.FK__App_Car_P__user___15502E78" FromRole="App_Car_Pool" ToRole="App_User" />
+          <NavigationProperty Name="App_Driver_Schedule" Relationship="Self.FK__App_Drive__car_p__1ED998B2" FromRole="App_Car_Pool" ToRole="App_Driver_Schedule" />
+          <NavigationProperty Name="App_Feedback" Relationship="Self.FK__App_Feedb__car_p__1BFD2C07" FromRole="App_Car_Pool" ToRole="App_Feedback" />
+          <NavigationProperty Name="App_Takes" Relationship="Self.FK__App_Takes__car_p__1920BF5C" FromRole="App_Car_Pool" ToRole="App_Takes" />
+        </EntityType>
+        <EntityType Name="App_Driver_Schedule">
+          <Key>
+            <PropertyRef Name="car_pool_id" />
+            <PropertyRef Name="day" />
+          </Key>
+          <Property Name="car_pool_id" Type="Int32" Nullable="false" />
+          <Property Name="day" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="leaving_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="reaching_time" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="App_Car_Pool" Relationship="Self.FK__App_Drive__car_p__1ED998B2" FromRole="App_Driver_Schedule" ToRole="App_Car_Pool" />
+        </EntityType>
+        <EntityType Name="App_Feedback">
+          <Key>
+            <PropertyRef Name="car_pool_id" />
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="car_pool_id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="created_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="feedback_description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="rating" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="App_Car_Pool" Relationship="Self.FK__App_Feedb__car_p__1BFD2C07" FromRole="App_Feedback" ToRole="App_Car_Pool" />
+        </EntityType>
+        <EntityType Name="App_Takes">
+          <Key>
+            <PropertyRef Name="user_id" />
+            <PropertyRef Name="car_pool_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="car_pool_id" Type="Int32" Nullable="false" />
+          <Property Name="no_of_seats_booked" Type="Int32" Nullable="false" />
+          <Property Name="booking_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="unbook_date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="App_Car_Pool" Relationship="Self.FK__App_Takes__car_p__1920BF5C" FromRole="App_Takes" ToRole="App_Car_Pool" />
+          <NavigationProperty Name="App_User" Relationship="Self.FK__App_Takes__user___182C9B23" FromRole="App_Takes" ToRole="App_User" />
+        </EntityType>
+        <EntityType Name="App_User">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="phone_No" Type="Int32" Nullable="false" />
+          <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="profile_picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="address_id" Type="Int32" Nullable="false" />
+          <Property Name="gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="black_list" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="App_Address" Relationship="Self.FK__App_Addre__user___1273C1CD" FromRole="App_User" ToRole="App_Address" />
+          <NavigationProperty Name="App_Car_Pool" Relationship="Self.FK__App_Car_P__user___15502E78" FromRole="App_User" ToRole="App_Car_Pool" />
+          <NavigationProperty Name="App_Takes" Relationship="Self.FK__App_Takes__user___182C9B23" FromRole="App_User" ToRole="App_Takes" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK__App_Addre__user___1273C1CD">
+          <End Role="App_User" Type="Self.App_User" Multiplicity="1" />
+          <End Role="App_Address" Type="Self.App_Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="App_Address">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__App_Car_P__user___15502E78">
+          <End Role="App_User" Type="Self.App_User" Multiplicity="1" />
+          <End Role="App_Car_Pool" Type="Self.App_Car_Pool" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="App_Car_Pool">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__App_Drive__car_p__1ED998B2">
+          <End Role="App_Car_Pool" Type="Self.App_Car_Pool" Multiplicity="1" />
+          <End Role="App_Driver_Schedule" Type="Self.App_Driver_Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_Car_Pool">
+              <PropertyRef Name="car_pool_id" />
+            </Principal>
+            <Dependent Role="App_Driver_Schedule">
+              <PropertyRef Name="car_pool_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__App_Feedb__car_p__1BFD2C07">
+          <End Role="App_Car_Pool" Type="Self.App_Car_Pool" Multiplicity="1" />
+          <End Role="App_Feedback" Type="Self.App_Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_Car_Pool">
+              <PropertyRef Name="car_pool_id" />
+            </Principal>
+            <Dependent Role="App_Feedback">
+              <PropertyRef Name="car_pool_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__App_Takes__car_p__1920BF5C">
+          <End Role="App_Car_Pool" Type="Self.App_Car_Pool" Multiplicity="1" />
+          <End Role="App_Takes" Type="Self.App_Takes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_Car_Pool">
+              <PropertyRef Name="car_pool_id" />
+            </Principal>
+            <Dependent Role="App_Takes">
+              <PropertyRef Name="car_pool_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__App_Takes__user___182C9B23">
+          <End Role="App_User" Type="Self.App_User" Multiplicity="1" />
+          <End Role="App_Takes" Type="Self.App_Takes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App_User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="App_Takes">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SocialTravel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="App_Address" EntityType="Self.App_Address" />
+          <EntitySet Name="App_Car_Pool" EntityType="Self.App_Car_Pool" />
+          <EntitySet Name="App_Driver_Schedule" EntityType="Self.App_Driver_Schedule" />
+          <EntitySet Name="App_Feedback" EntityType="Self.App_Feedback" />
+          <EntitySet Name="App_Takes" EntityType="Self.App_Takes" />
+          <EntitySet Name="App_User" EntityType="Self.App_User" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK__App_Addre__user___1273C1CD" Association="Self.FK__App_Addre__user___1273C1CD">
+            <End Role="App_User" EntitySet="App_User" />
+            <End Role="App_Address" EntitySet="App_Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK__App_Car_P__user___15502E78" Association="Self.FK__App_Car_P__user___15502E78">
+            <End Role="App_User" EntitySet="App_User" />
+            <End Role="App_Car_Pool" EntitySet="App_Car_Pool" />
+          </AssociationSet>
+          <AssociationSet Name="FK__App_Drive__car_p__1ED998B2" Association="Self.FK__App_Drive__car_p__1ED998B2">
+            <End Role="App_Car_Pool" EntitySet="App_Car_Pool" />
+            <End Role="App_Driver_Schedule" EntitySet="App_Driver_Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__App_Feedb__car_p__1BFD2C07" Association="Self.FK__App_Feedb__car_p__1BFD2C07">
+            <End Role="App_Car_Pool" EntitySet="App_Car_Pool" />
+            <End Role="App_Feedback" EntitySet="App_Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK__App_Takes__car_p__1920BF5C" Association="Self.FK__App_Takes__car_p__1920BF5C">
+            <End Role="App_Car_Pool" EntitySet="App_Car_Pool" />
+            <End Role="App_Takes" EntitySet="App_Takes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__App_Takes__user___182C9B23" Association="Self.FK__App_Takes__user___182C9B23">
+            <End Role="App_User" EntitySet="App_User" />
+            <End Role="App_Takes" EntitySet="App_Takes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SocialTravelModelStoreContainer" CdmEntityContainer="SocialTravel">
+          <EntitySetMapping Name="App_Address">
+            <EntityTypeMapping TypeName="SocialTravelModel.App_Address">
+              <MappingFragment StoreEntitySet="App_Address">
+                <ScalarProperty Name="address_id" ColumnName="address_id" />
+                <ScalarProperty Name="house_no" ColumnName="house_no" />
+                <ScalarProperty Name="block" ColumnName="block" />
+                <ScalarProperty Name="street" ColumnName="street" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="town" ColumnName="town" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="App_Car_Pool">
+            <EntityTypeMapping TypeName="SocialTravelModel.App_Car_Pool">
+              <MappingFragment StoreEntitySet="App_Car_Pool">
+                <ScalarProperty Name="car_pool_id" ColumnName="car_pool_id" />
+                <ScalarProperty Name="car_pool_created_date" ColumnName="car_pool_created_date" />
+                <ScalarProperty Name="to_" ColumnName="to_" />
+                <ScalarProperty Name="from_" ColumnName="from_" />
+                <ScalarProperty Name="effective_from" ColumnName="effective_from" />
+                <ScalarProperty Name="effective_to" ColumnName="effective_to" />
+                <ScalarProperty Name="no_of_seats_available" ColumnName="no_of_seats_available" />
+                <ScalarProperty Name="cost_per_seat" ColumnName="cost_per_seat" />
+                <ScalarProperty Name="round_trip" ColumnName="round_trip" />
+                <ScalarProperty Name="wait_time" ColumnName="wait_time" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="approx_reach_time" ColumnName="approx_reach_time" />
+                <ScalarProperty Name="smoking" ColumnName="smoking" />
+                <ScalarProperty Name="food" ColumnName="food" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="App_Driver_Schedule">
+            <EntityTypeMapping TypeName="SocialTravelModel.App_Driver_Schedule">
+              <MappingFragment StoreEntitySet="App_Driver_Schedule">
+                <ScalarProperty Name="car_pool_id" ColumnName="car_pool_id" />
+                <ScalarProperty Name="day" ColumnName="day" />
+                <ScalarProperty Name="leaving_time" ColumnName="leaving_time" />
+                <ScalarProperty Name="reaching_time" ColumnName="reaching_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="App_Feedback">
+            <EntityTypeMapping TypeName="SocialTravelModel.App_Feedback">
+              <MappingFragment StoreEntitySet="App_Feedback">
+                <ScalarProperty Name="car_pool_id" ColumnName="car_pool_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="feedback_description" ColumnName="feedback_description" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="App_Takes">
+            <EntityTypeMapping TypeName="SocialTravelModel.App_Takes">
+              <MappingFragment StoreEntitySet="App_Takes">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="car_pool_id" ColumnName="car_pool_id" />
+                <ScalarProperty Name="no_of_seats_booked" ColumnName="no_of_seats_booked" />
+                <ScalarProperty Name="booking_date" ColumnName="booking_date" />
+                <ScalarProperty Name="unbook_date" ColumnName="unbook_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="App_User">
+            <EntityTypeMapping TypeName="SocialTravelModel.App_User">
+              <MappingFragment StoreEntitySet="App_User">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="phone_No" ColumnName="phone_No" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="user_password" ColumnName="user_password" />
+                <ScalarProperty Name="user_description" ColumnName="user_description" />
+                <ScalarProperty Name="profile_picture" ColumnName="profile_picture" />
+                <ScalarProperty Name="address_id" ColumnName="address_id" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="black_list" ColumnName="black_list" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SocialTravelModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
