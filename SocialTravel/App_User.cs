@@ -28,10 +28,10 @@ namespace SocialTravel
         public string email { get; set; }
         public string user_password { get; set; }
         public string user_description { get; set; }
-        public byte[] profile_picture { get; set; }
         public int address_id { get; set; }
         public string gender { get; set; }
         public bool black_list { get; set; }
+        public string profile_picture { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<App_Address> App_Address { get; set; }

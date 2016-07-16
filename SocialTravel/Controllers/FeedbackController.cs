@@ -67,6 +67,9 @@ namespace SocialTravel.Controllers
                     fb.rating = feedback.rating;
                     fb.feedback_description = feedback.feedback_description;
 
+                    ste.App_Feedback.Add(fb);
+                    ste.SaveChanges();
+
                     return true;
                 }
 
@@ -93,8 +96,6 @@ namespace SocialTravel.Controllers
                     fb.created_date = feedback.created_date;
                     fb.rating = feedback.rating;
                     fb.feedback_description = feedback.feedback_description;
-
-                    ste.App_Feedback.Add(fb);
                     ste.SaveChanges();
 
                     return true;

@@ -13,7 +13,7 @@ namespace API.Models
         public string user_password { get; set; }
         public int phone_No { get; set; }
         public string email { get; set; }
-        public byte[] profile_picture { get; set; }
+        public string profile_picture { get; set; }
         public int address_id { get; set; }
         public string gender { get; set; }
         public bool black_list { get; set; }

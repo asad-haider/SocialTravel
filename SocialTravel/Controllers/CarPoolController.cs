@@ -1,9 +1,11 @@
 ﻿using SocialTravel.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace SocialTravel.Controllers
@@ -71,6 +73,71 @@ namespace SocialTravel.Controllers
             };
         }
 
+        [HttpGet]
+        [Route("find/{car_pool_id:int}")]
+        public CarPool search(int car_pool_id)
+        {
+            using (SocialTravel ste = new SocialTravel())
+            {
+                int nid = Convert.ToInt32(car_pool_id);
+                return ste.App_Car_Pool.Where(cp => cp.car_pool_id == nid).Select(cp => new CarPool
+                {
+                    car_pool_id = cp.car_pool_id,
+                    car_pool_created_date = cp.car_pool_created_date,
+                    to_ = cp.to_,
+                    from_ = cp.from_,
+                    effective_from = cp.effective_from,
+                    effective_to = cp.effective_to,
+                    no_of_seats_available = cp.no_of_seats_available,
+                    cost_per_seat = cp.cost_per_seat,
+                    round_trip = cp.round_trip,
+                    wait_time = cp.wait_time,
+                    description = cp.description,
+                    approx_reach_time = cp.approx_reach_time,
+                    smoking = cp.smoking,
+                    food = cp.food,
+                    user_id = cp.user_id,
+
+
+                }).First();
+            };
+        }
+
+
+        [HttpGet]
+        [Route("search")]
+        public List<CarPool> search(string from, string to)
+        {
+            using (SocialTravel ste = new SocialTravel())
+            {
+
+                var result = ste.App_Car_Pool.Where(cp => cp.from_ == from && cp.to_ == to).Select(cp => new CarPool
+                {
+                    car_pool_id = cp.car_pool_id,
+                    car_pool_created_date = cp.car_pool_created_date,
+                    to_ = cp.to_,
+                    from_ = cp.from_,
+                    effective_from = cp.effective_from,
+                    effective_to = cp.effective_to,
+                    no_of_seats_available = cp.no_of_seats_available,
+                    cost_per_seat = cp.cost_per_seat,
+                    round_trip = cp.round_trip,
+                    wait_time = cp.wait_time,
+                    description = cp.description,
+                    approx_reach_time = cp.approx_reach_time,
+                    smoking = cp.smoking,
+                    food = cp.food,
+                    user_id = cp.user_id,
+
+                });
+
+                return result.ToList();
+
+            };
+        }
+
+       
+
         [HttpPost]
         [Route("create")]
         public bool create(CarPool carpool)
@@ -95,6 +162,9 @@ namespace SocialTravel.Controllers
                     cp.smoking = carpool.smoking;
                     cp.food = carpool.food;
                     cp.user_id = carpool.user_id;
+
+                    ste.App_Car_Pool.Add(cp);
+                    ste.SaveChanges();
 
                     return true;
                 }
@@ -131,8 +201,6 @@ namespace SocialTravel.Controllers
                     cp.smoking = carpool.smoking;
                     cp.food = carpool.food;
                     cp.user_id = carpool.user_id;
-
-                    ste.App_Car_Pool.Add(cp);
                     ste.SaveChanges();
                     return true;
                 }

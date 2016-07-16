@@ -70,7 +70,9 @@ namespace SocialTravel.Controllers
                     aa.house_no = address.house_no;
                     aa.area = address.area;
 
-                
+                    ste.App_Address.Add(aa);
+                    ste.SaveChanges();
+
                     return true;
                 }
 
@@ -99,8 +101,6 @@ namespace SocialTravel.Controllers
                     aa.street = address.street;
                     aa.block = address.block;
                     aa.area = address.area;
-
-                    ste.App_Address.Add(aa);
                     ste.SaveChanges();
 
 

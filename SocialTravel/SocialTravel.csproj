@@ -185,15 +185,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SocialTravelDB.edmx</DependentUpon>
     </Compile>
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>SocialTravelDB.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="Properties\PublishProfiles\Asad.pubxml" />
     <EntityDeploy Include="SocialTravelDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SocialTravelDB.Designer.cs</LastGenOutput>
@@ -201,7 +196,6 @@
     <Content Include="SocialTravelDB.edmx.diagram">
       <DependentUpon>SocialTravelDB.edmx</DependentUpon>
     </Content>
-    <None Include="Properties\PublishProfiles\Asad.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

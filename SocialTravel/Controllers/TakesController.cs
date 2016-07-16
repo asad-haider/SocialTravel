@@ -63,6 +63,9 @@ namespace SocialTravel.Controllers
                     t.unbook_date = takes.unbook_date;
                     t.no_of_seats_booked = takes.no_of_seats_booked;
 
+                    ste.App_Takes.Add(t);
+                    ste.SaveChanges();
+
                     return true;
                 }
 
@@ -89,7 +92,6 @@ namespace SocialTravel.Controllers
                     t.unbook_date = takes.unbook_date;
                     t.no_of_seats_booked = takes.no_of_seats_booked;
 
-                    ste.App_Takes.Add(t);
                     ste.SaveChanges();
 
                     return true;

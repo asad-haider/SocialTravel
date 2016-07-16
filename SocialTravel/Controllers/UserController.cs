@@ -1,9 +1,11 @@
 ﻿using API.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace SocialTravel.Controllers
@@ -91,7 +93,10 @@ namespace SocialTravel.Controllers
                     u.address_id = user.address_id;
                     u.gender = user.gender;
                     u.black_list = user.black_list;
-                   
+
+                    ste.App_User.Add(u);
+                    ste.SaveChanges();
+
                     return true;
                 }
 
@@ -102,6 +107,87 @@ namespace SocialTravel.Controllers
             };
         }
 
+        [HttpPost]
+        [Route("login")]
+        public User Login(User user)
+        {
+            using (SocialTravel ste = new SocialTravel())
+            {
+                try
+                {
+                    var result = ste.App_User.Where(u => u.email == user.email & u.user_password == user.user_password).Select(u => new User
+                    {
+
+                        user_id = u.user_id,
+                        user_description = u.user_description,
+                        user_name = u.user_name,
+                        user_password = u.user_password,
+                        phone_No = u.phone_No,
+                        email = u.email,
+                        profile_picture = u.profile_picture,
+                        address_id = u.address_id,
+                        gender = u.gender,
+                        black_list = u.black_list
+                    }).SingleOrDefault();
+
+                    return result;
+                }
+                catch
+                {
+                    return null;
+                }
+            };
+        }
+
+        [HttpPost]
+        [Route("upload")]
+        public string UploadFile(int userId)
+        {
+            var file = HttpContext.Current.Request.Files.Count > 0 ?
+                HttpContext.Current.Request.Files[0] : null;
+
+            if (file != null && file.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+
+                var directory = HttpContext.Current.Server.MapPath("~/uploads");
+
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                var path = Path.Combine(
+                    directory,
+                    fileName
+                );
+ 
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+
+                file.SaveAs(path);
+
+                if (file != null)
+                {
+                    using (SocialTravel ste = new SocialTravel())
+                    {
+                            App_User u = ste.App_User.Single(au => au.user_id == userId);
+                            u.profile_picture = path;
+                            ste.SaveChanges();
+                            
+                        
+                    };
+                }
+                return file != null ? "/uploads/" + file.FileName : null;
+            }
+            else
+            {
+                return null;
+            }          
+        }
+
         [HttpPut]
         [Route("edit")]
         public bool edit(User user)
@@ -110,7 +196,6 @@ namespace SocialTravel.Controllers
             {
                 try
                 {
-                    int user_id = Convert.ToInt32(user.user_id);
                     App_User u = ste.App_User.Single(au => au.user_id == user.user_id);
 
                     u.user_description = user.user_description;
@@ -122,12 +207,7 @@ namespace SocialTravel.Controllers
                     u.address_id = user.address_id;
                     u.gender = user.gender;
                     u.black_list = user.black_list;
-
-                    ste.App_User.Add(u);
                     ste.SaveChanges();
-
-
-
                     return true;
                 }
 
@@ -155,7 +235,7 @@ namespace SocialTravel.Controllers
                     return true;
                 }
 
-                catch
+                catch(Exception e)
                 {
                     return false;
                 }

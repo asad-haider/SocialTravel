@@ -31,6 +31,5 @@ namespace SocialTravel
         public virtual DbSet<App_Feedback> App_Feedback { get; set; }
         public virtual DbSet<App_Takes> App_Takes { get; set; }
         public virtual DbSet<App_User> App_User { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }
