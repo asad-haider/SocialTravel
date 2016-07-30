@@ -72,7 +72,6 @@ namespace SocialTravel.Controllers
             };
         }
 
-
         [HttpPost]
         [Route("create")]
         public bool create(User user)
